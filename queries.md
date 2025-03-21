@@ -24,12 +24,21 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
   "query": {
     "script": {
       "script": {
-        "source": "doc['updated'].value - doc['time'].value >= 300000", 
+        "source": """
+          if (doc['updated'].size()==0 || doc['time'].size()==0) {
+            return false;
+          } else {
+            long updatedMillis = doc['updated'].value.toInstant().toEpochMilli();
+            long timeMillis = doc['time'].value.toInstant().toEpochMilli();
+            return updatedMillis - timeMillis >= 300000;
+          }
+        """,
         "lang": "painless"
       }
     }
   }
 }
+
 ```
 
 3. Earthquakes with a Gap Greater Than 100
@@ -66,13 +75,22 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 ```
 {
   "query": {
-    "bool": {
-      "filter": {
-        "geo_bounding_box": {
-          "coordinates": {
-            "top_left": { "lat": 39.0, "lon": -123.0 },
-            "bottom_right": { "lat": 38.0, "lon": -122.0 }
+    "script": {
+      "script": {
+        "source": """
+          if (doc['location.lat'].size() > 0 && doc['location.lon'].size() > 0) {
+            double lat = doc['location.lat'].value;
+            double lon = doc['location.lon'].value;
+            return lat <= params.top && lat >= params.bottom && lon >= params.left && lon <= params.right;
           }
+          return false;
+        """,
+        "lang": "painless",
+        "params": {
+          "top": 39.0,
+          "bottom": 38.0,
+          "left": -123.0,
+          "right": -122.0
         }
       }
     }
@@ -119,21 +137,28 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 }
 ```
 
-8. Top 5 Places by Number of Earthquakes with Their Average Magnitude
-Using the place.keyword field to aggregate by place.
+8. Average Magnitude and Depth per Year
 
 ```
+GET earthquakes/_search
 {
   "size": 0,
   "aggs": {
-    "top_places": {
-      "terms": {
-        "field": "place.keyword",
-        "size": 5
+    "years": {
+      "date_histogram": {
+        "field": "time",
+        "calendar_interval": "year"
       },
       "aggs": {
         "avg_magnitude": {
-          "avg": { "field": "mag" }
+          "avg": {
+            "field": "mag"
+          }
+        },
+        "avg_depth": {
+          "avg": {
+            "field": "depth"
+          }
         }
       }
     }
