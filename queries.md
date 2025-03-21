@@ -225,7 +225,7 @@ POST /_reindex
 GET earthquakes_v2/_search
 {
   "size": 10,
-  "_source": ["properties.mag","properties.place","properties.time"],
+  "_source": ["mag","place","time"],
   "query": {
     "match_all": {}
   },
