@@ -48,6 +48,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 {
+  "_source": ["mag","place","gap"],
   "query": {
     "range": {
       "gap": {
@@ -63,6 +64,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 {
+  "_source": ["mag","place","tsunami"],
   "query": {
     "term": {
       "tsunami": 1
@@ -76,6 +78,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 {
+  "_source": ["mag","place","location"],
   "query": {
     "script": {
       "script": {
@@ -105,6 +108,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 {
+  "_source": ["mag","place","range"],
   "query": {
     "range": {
       "dmin": {
