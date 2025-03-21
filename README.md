@@ -78,6 +78,22 @@ There are are 7668 newline characters. In other words, there are 766**9** lines.
 XXX description du code python
 ## Loading the JSON into ElasticSearch
 
+Pull and run the container 
+```
+docker pull nshou/elasticsearch-kibana:latest
+docker run -d -p 9200:9200 -p 5601:5601 --name elasticsearch-kibana nshou/elasticsearch-kibana
+```
+
+Get the login infos
+``` 
+docker logs -f elasticsearch-kibana
+``` 
+
+Transfer data to elasticsearch
+```
+curl -XPUT localhost:9200/_bulk -H "Content-Type: application/json" --data-binary @earthquakes_bulk.json
+```
+
 
 # Queries
 
