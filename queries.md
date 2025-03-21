@@ -172,31 +172,76 @@ This query sorts by geographic distance. It assumes your coordinates field is ma
 For the time filter, if your time field is a date field with epoch_millis, "now-7d" works directly. If not, convert "now-7d" to the corresponding epoch millisecond value.
 
 ```
+PUT /earthquakes_v2
 {
-  "size": 1,
-  "sort": [
-    {
-      "_geo_distance": {
-        "coordinates": {
-          "lat": 38.87,
-          "lon": -122.8
-        },
-        "order": "asc",
-        "unit": "km",
-        "mode": "min",
-        "distance_type": "arc"
-      }
-    }
-  ],
-  "query": {
-    "bool": {
-      "must": [
-        { "range": { "mag": { "gt": 4 } } },
-        { "range": { "time": { "gte": "now-7d" } } }
-      ]
+  "mappings": {
+    "properties": {
+      "location": {
+        "type": "geo_point"
+      },
+      "mag": { "type": "double" },
+      "place": { "type": "text" },
+      "time": { "type": "date" },
+      "updated": { "type": "date" },
+      "tz": { "type": "long" },
+      "url": { "type": "keyword" },
+      "detail": { "type": "keyword" },
+      "status": { "type": "keyword" },
+      "sig": { "type": "long" },
+      "net": { "type": "keyword" },
+      "code": { "type": "keyword" },
+      "ids": { "type": "keyword" },
+      "sources": { "type": "keyword" },
+      "types": { "type": "keyword" },
+      "nst": { "type": "long" },
+      "dmin": { "type": "double" },
+      "rms": { "type": "double" },
+      "gap": { "type": "double" },
+      "magType": { "type": "keyword" },
+      "event_type": { "type": "keyword" },
+      "felt": { "type": "long" },
+      "cdi": { "type": "double" },
+      "mmi": { "type": "double" },
+      "alert": { "type": "keyword" },
+      "tsunami": { "type": "long" },
+      "depth": { "type": "double" }
     }
   }
 }
+
+
+
+POST /_reindex
+{
+  "source": {
+    "index": "earthquakes"
+  },
+  "dest": {
+    "index": "earthquakes_v2"
+  }
+}
+
+
+GET earthquakes_v2/_search
+{
+  "size": 10,
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "_geo_distance": {
+        "location": {
+          "lat": 37.7749,
+          "lon": -122.4194
+        },
+        "order": "asc",
+        "unit": "km"
+      }
+    }
+  ]
+}
+
 ```
 
 
