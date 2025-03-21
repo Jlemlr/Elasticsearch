@@ -4,6 +4,7 @@
 
 ```
 {
+  "_source": ["mag","place","status"],
   "query": {
     "bool": {
       "must": [
@@ -21,6 +22,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 {
+  "_source": ["mag","place","time"],
   "query": {
     "script": {
       "script": {
