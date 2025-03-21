@@ -1,5 +1,5 @@
 ---
-title: OCC2 MongoDB Report
+title: OCC2 Elasticsearch Report
 author:
  - Klink, Carl
  - Lefebvre, Romain
