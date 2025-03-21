@@ -75,7 +75,9 @@ root@6d7fb3f3b522:/workspaces/MongoDB# wc -l earthquakes_big.geojson.json
 
 There are are 7668 newline characters. In other words, there are 766**9** lines. :) 
 
-XXX description du code python
+We now run `utils.py` as we did for MangoDB, it outputs `earthquakes_big.geojson.json`.
+We then adapt this file to Elasticsearch using `Elastic_format.py`, that outputs the file `earthquakes_bulk.py` that we will be using for this exercise.
+
 ## Loading the JSON into ElasticSearch
 
 Pull and run the container 
