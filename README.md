@@ -81,24 +81,17 @@ XXX description du code python
 Pull and run the container 
 ```
 docker pull nshou/elasticsearch-kibana:latest
-docker run -d -p 9200:9200 -p 5601:5601 --name elasticsearch-kibana nshou/elasticsearch-kibana
+docker run -d -p 9200:9200 -p 5601:5601 --name elasticsearch nshou/elasticsearch-kibana
 ```
 
-Get the login infos
+Get the login infos to access elasticsearch app
 ``` 
-docker logs -f elasticsearch-kibana
-``` 
+docker logs -f elasticsearch
+```
+There it gives you the login info and you can access https://localhost:5601/ (the port might be different check the output of the query)
 
-Transfer data to elasticsearch
-```
-curl -XPUT localhost:9200/_bulk -H "Content-Type: application/json" --data-binary @earthquakes_bulk.json
-```
+Once on the elastic search webapp, click on import data and import the `earthquakes_bulk.json` file and set `earthquake` as index.
+Then to execute queries go to `Dev tools`.
 
 
 # Queries
-
-### Easy queries
-
-### Complex queries
-
-### Hard Queries
