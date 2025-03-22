@@ -1,6 +1,9 @@
-# Simple Queries
-1. Earthquakes in California with Magnitude > 3 and Status "AUTOMATIC"
 
+# Queries
+
+## Simple Queries
+
+1. **Earthquakes in California with Magnitude > 3 and Status "AUTOMATIC"**
 
 ```
 {
@@ -17,7 +20,8 @@
 }
 ```
 
-2. Earthquakes Where the Updated Time Exceeds the Event Time by at Least 5 Minutes
+2. **Earthquakes Where the Updated Time Exceeds the Event Time by at Least 5 Minutes**
+
 Note: The time field is in epoch milliseconds while updated is also stored in epoch milliseconds.
 
 ```
@@ -43,8 +47,9 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 
-3. Earthquakes with a Gap Greater Than 100
-(Assuming a higher gap may indicate less reliable phase picks)
+3. **Earthquakes with a Gap Greater Than 100**
+
+Assuming a higher gap may indicate less reliable phase picks
 
 ```
 {
@@ -73,8 +78,9 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 }
 ```
 
-5. Earthquakes Within a Specific Geographic Bounding Box
-(This example looks for events in a region near California. Adjust the bounding box coordinates as needed.)
+5. **Earthquakes Within a Specific Geographic Bounding Box**
+
+This example looks for events in a region near California. Adjust the bounding box coordinates as needed.
 
 ```
 {
@@ -103,8 +109,9 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 }
 ```
 
-6. Earthquakes with a Very Close Station Distance (dmin < 0.01)
-(Lower dmin values can indicate that the station was very near the epicenter)
+6. **Earthquakes with a Very Close Station Distance (`dmin < 0.01`)**
+
+Lower dmin values can indicate that the station was very near the epicenter
 
 ```
 {
@@ -119,10 +126,11 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 }
 ```
 
-# Complex Queries
+## Complex Queries
 
-7. Daily Statistics: Count and Average Magnitude Per Day
-(Aggregates events by day using a date histogram on the time field and computes the average magnitude)
+7. **Daily Statistics: Count and Average Magnitude Per Day**
+
+Aggregates events by day using a date histogram on the time field and computes the average magnitude
 
 ```
 {
@@ -143,7 +151,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 }
 ```
 
-8. Average Magnitude and Depth per Year
+8. **Average Magnitude and Depth per Year**
 
 ```
 GET earthquakes/_search
@@ -172,10 +180,10 @@ GET earthquakes/_search
 }
 ```
 
-9. Closest Earthquake (with Magnitude > 4.0 and in the Last 7 Days) to a Given Location
+9. **Closest Earthquake (with Magnitude > 4.0 and in the Last 7 Days) to a Given Location**
 
-This query sorts by geographic distance. It assumes your coordinates field is mapped as a geo_point (using only the first two values: longitude and latitude).
-For the time filter, if your time field is a date field with epoch_millis, "now-7d" works directly. If not, convert "now-7d" to the corresponding epoch millisecond value.
+This query sorts by geographic distance using `geo_point` (using only the first two values: longitude and latitude).
+For the time filter, since we have a date field with `epoch_millis`, `now - 7d` works directly.
 
 ```
 PUT /earthquakes_v2
@@ -215,8 +223,6 @@ PUT /earthquakes_v2
   }
 }
 
-
-
 POST /_reindex
 {
   "source": {
@@ -226,7 +232,6 @@ POST /_reindex
     "index": "earthquakes_v2"
   }
 }
-
 
 GET earthquakes_v2/_search
 {
@@ -248,14 +253,4 @@ GET earthquakes_v2/_search
     }
   ]
 }
-
 ```
-
-
-
-
-
-
-
-
-
