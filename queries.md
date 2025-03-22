@@ -108,7 +108,7 @@ Note: The time field is in epoch milliseconds while updated is also stored in ep
 
 ```
 {
-  "_source": ["mag","place","range"],
+  "_source": ["mag","place","dmin"],
   "query": {
     "range": {
       "dmin": {
