@@ -115,7 +115,7 @@ Lower dmin values can indicate that the station was very near the epicenter
 
 ```
 {
-  "_source": ["mag","place","range"],
+  "_source": ["mag","place","dmin"],
   "query": {
     "range": {
       "dmin": {
