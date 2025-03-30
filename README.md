@@ -295,6 +295,8 @@ GET earthquakes/_search
 }
 ```
 
+## Hard Queries
+
 9. **Closest Earthquake (with Magnitude > 4.0 and in the Last 7 Days) to a Given Location**
 
 This query sorts by geographic distance using `geo_point` (using only the first two values: longitude and latitude).
